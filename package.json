@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "license": "MIT",
+  "description": "Dashboard for Home Assistant Alarmo using MQTT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
