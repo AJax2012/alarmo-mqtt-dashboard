@@ -19,7 +19,7 @@ import { getMqttClient, getStatusFromStateMessage } from './utils';
 function App() {
   const [client, setClient] = useState<MqttClient>();
   const [status, setStatus] = useState(StatusType.Unknown);
-  const [delay, setDelay] = useState(50);
+  const [delay, setDelay] = useState(0);
   const [openSensors, setOpenSensors] = useState<Sensor[]>([]);
 
   useEffect(() => {
