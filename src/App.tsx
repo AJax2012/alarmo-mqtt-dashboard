@@ -30,7 +30,6 @@ function App() {
   const triggered = useMemo(() => [StatusType.Triggered, StatusType.Pending].includes(status), [status]);
 
   const publishStatusUpdate = (command: Command, code?: string) => {
-    console.log('Publishing command: ', command);
     const message = code ? JSON.stringify({ command: command.toString(), code }) : command.toString();
     if (client) {
       client.publish("alarmo/command", message, { qos: 1, retain: true });
@@ -38,13 +37,11 @@ function App() {
   };
 
   const handleEventMessage = (message: EventMessage) => {
-    console.log('Event message: ', message);
     switch (message.event) {
       case 'TRIGGER':
         setDelay(message.delay);
         break;
       case 'ARM_AWAY':
-        console.log('Arming away. Delay: ', message.delay);
         setDelay(message.delay);
         break;
       case 'FAILED_TO_ARM':
@@ -69,7 +66,6 @@ function App() {
         toast.success('Connected to Home Assistant!', { toastId: 'mqtt-connected' });
         client.subscribe(import.meta.env.VITE_EVENT_TOPIC);
         client.subscribe(import.meta.env.VITE_STATE_TOPIC);
-        client.subscribe('alarmo/command', (error) => console.log('Error: ', error));
       });
       client.on('error', (err) => {
         console.error('Connection error: ', err);
@@ -84,8 +80,6 @@ function App() {
           topic,
           message: message.toString(),
         };
-
-        console.log('Received message: ', payload);
 
         if (topic === import.meta.env.VITE_STATE_TOPIC) {
           const status = getStatusFromStateMessage(payload.message as StateMessage);
