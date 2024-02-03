@@ -7,6 +7,8 @@ RUN yarn install
 RUN yarn build
 EXPOSE 7070
 
-FROM nginx
-COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+FROM nginx:stable-alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -5,7 +5,15 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   base: '/',
   plugins: [react()],
+  build: {
+    outDir: 'build',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+  },
   server: {
+    watch: {
+      usePolling: true,
+    },
     port: 7070,
     strictPort: true,
     host: true,
