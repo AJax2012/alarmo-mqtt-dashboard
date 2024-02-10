@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+:focus-visible {
+  outline: none !important;
+}
+
 body {
   display: flex;
   place-items: center;
