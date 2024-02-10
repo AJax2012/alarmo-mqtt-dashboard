@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
-import { Container } from 'reactstrap';
+import { Container, Spinner } from 'reactstrap';
 import { toast } from 'react-toastify';
 import { MqttClient } from 'mqtt';
 import { Actions, FailedSensors, Status } from './components';
@@ -14,7 +14,7 @@ import {
 } from './types';
 import { getMqttClient, getStatusFromStateMessage } from './utils';
 
-// const testStatus = StatusType.Triggered;
+// const testStatus = StatusType.Unknown;
 
 function App() {
   const [client, setClient] = useState<MqttClient>();
@@ -100,9 +100,13 @@ function App() {
 
   return (
     <Container className={cn({ trigger: triggered })}>
-      <Status mode={status} secondsRemaining={delay} />
-      <Actions mode={status} handleAction={publishStatusUpdate} />
-      <FailedSensors sensors={openSensors} />
+      {status === StatusType.Unknown ? <Spinner /> : (
+        <>
+          <Status mode={status} secondsRemaining={delay} />
+          <Actions mode={status} handleAction={publishStatusUpdate} />
+          <FailedSensors sensors={openSensors} />
+        </>
+      )}
     </Container>
   );
 }
